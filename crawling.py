@@ -31,6 +31,10 @@ def main():
     table_content = [f'| {title} |   | {summary} |    |    |' for title,summary in result_list_of_title_and_summary]
     table_text = table_text+'\n'.join(table_content)
     print(table_text)
+    current_datetime = datetime.now().strftime("%Y-%m-%d")
+    filename = f"data_{current_datetime}.txt" 
+    with open(filename, 'w') as file:
+        file.write(table_text)
 
 if __name__ == "__main__":
   main()
