@@ -1,6 +1,7 @@
 import requests
 from bs4 import BeautifulSoup
 from datetime import datetime, timedelta
+from github_utils import get_github_repo, upload_github_issue
 
 def get_NYT_headline(days_ago = 1):
     yesterday = datetime.now() + timedelta(days=-abs(days_ago))
@@ -24,6 +25,9 @@ def get_NYT_headline(days_ago = 1):
     return result_list_of_title_and_summary
 
 def main():
+    access_token = os.environ['MY_GITHUB_TOKEN']
+    repository_name = "eng_test"
+    
     print('crawling from NY Times')
     result_list_of_title_and_summary = get_NYT_headline()
     print(f'total {len(result_list_of_title_and_summary)} headlines')
@@ -32,9 +36,12 @@ def main():
     table_text = table_text+'\n'.join(table_content)
     print(table_text)
     current_datetime = datetime.now().strftime("%Y-%m-%d")
-    filename = f"data_{current_datetime}.md" 
-    with open(filename, 'w') as file:
-        file.write(table_text)
+    issue_title = f"NYT_{current_datetime}"
+    repo = get_github_repo(access_token, repository_name)
+    upload_github_issue(repo, issue_title, table_text)
+    # filename = f"data_{current_datetime}.md" 
+    # with open(filename, 'w') as file:
+    #     file.write(table_text)
 
 if __name__ == "__main__":
   main()
