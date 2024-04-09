@@ -2,6 +2,7 @@ import requests
 from bs4 import BeautifulSoup
 from datetime import datetime, timedelta
 from github_utils import get_github_repo, upload_github_issue
+import os
 
 def get_NYT_headline(days_ago = 1):
     yesterday = datetime.now() + timedelta(days=-abs(days_ago))
