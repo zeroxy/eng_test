@@ -2,7 +2,7 @@ name: GithubActionTest
 
 on:
   schedule:
-    - cron: '0 09 * * *'
+    - cron: '36 * * * *'
 
 jobs:
   crawl:
