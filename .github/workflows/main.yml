@@ -26,3 +26,4 @@ jobs:
       run: python crawling.py
       env: 
         MY_GITHUB_TOKEN: ${{ secrets.MY_GITHUB_TOKEN }}
+        OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
