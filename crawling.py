@@ -6,6 +6,8 @@ import json
 from pprint import pprint
 from datetime import datetime, timedelta
 
+from github_utils import get_github_repo, upload_github_issue
+
 from langchain_community.chat_models import ChatOpenAI
 from langchain_core.output_parsers import StrOutputParser
 from langchain_core.prompts import ChatPromptTemplate
