@@ -33,7 +33,7 @@ def get_NYT_headline(days_ago = 1):
         summary = h3.find_next_siblings()[-1].text.strip()
         if 'Video:' not in title:
             result_list_of_title_and_summary.append( {'title':title, 'summary':summary} )
-    return result_list_of_title_and_summary
+    return yesterday.date(), result_list_of_title_and_summary
 
 def get_llm_response_md(news_headlines_json, doc_length = 5, llm = LLM):
     prompt_head = '''넌 지금부터 모국어가 한국어인 영어 초보자에게 영어를 가르쳐주는 아주 친절하고 현명한 선생님이야.'''
@@ -68,12 +68,12 @@ def get_markdown_output(result_list):
 
     return result_text
 
-def main():
+def main(days_ago = 1):
     access_token = os.environ['MY_GITHUB_TOKEN']
     repository_name = "eng_test"
     
     print('crawling from NY Times')
-    result_list_of_title_and_summary = get_NYT_headline()
+    NYT_timestamp , result_list_of_title_and_summary = get_NYT_headline(days_ago)
     print(f'total {len(result_list_of_title_and_summary)} headlines')
     
     result_json = []
@@ -87,8 +87,8 @@ def main():
         result_json = result_json + temp_merged_list
         
     result_md_table = get_markdown_output(result_json)
-    current_datetime = datetime.now().strftime("%Y-%m-%d")
-    issue_title = f"NYT_{current_datetime}"
+    # current_datetime = datetime.now().strftime("%Y-%m-%d")
+    issue_title = f"NYT_{NYT_timestamp}"
     repo = get_github_repo(access_token, repository_name)
     upload_github_issue(repo, issue_title, result_md_table)
     
