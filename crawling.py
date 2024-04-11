@@ -83,6 +83,7 @@ def main(days_ago = 1):
     for i in range(0, len(result_list_of_title_and_summary), step):
         print(i)
         temp_result = get_llm_response_md(json.dumps(result_list_of_title_and_summary[i:i+step]), len(result_list_of_title_and_summary[i:i+step]))
+        print(temp_result)
         temp_result_json = json.loads(temp_result)
         print(len(result_list_of_title_and_summary[i:i+step]), len(temp_result_json))
         temp_merged_list = [ result_list_of_title_and_summary[i+delta] | temp_result_json[delta] for delta in range(len(temp_result_json))]
