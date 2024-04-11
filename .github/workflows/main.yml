@@ -2,7 +2,7 @@ name: GithubActionTest
 
 on:
   schedule:
-    - cron: '7 0 * * *'
+    - cron: '0 0 * * *'
 
 jobs:
   crawl:
@@ -20,7 +20,7 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install beautifulsoup4 requests PyGithub==1.51
+        pip install beautifulsoup4 requests PyGithub==1.51 langchain==0.1.15 langchain_openai==0.1.2
 
     - name: Crawl webpage and save to file
       run: python crawling.py
