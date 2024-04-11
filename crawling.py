@@ -48,7 +48,7 @@ def get_llm_response_md(news_headlines_json, doc_length = 5, llm = LLM):
 2. 개별 뉴스를 양식에 맞춰서 한글로 번역해.
 3. 각각의 중요 핵심단어를 3~5개정도 정리해주고, '영어단어(한글뜻)' 형태로 출력해.
 4. 무조건 {doc_length}개의 JSON object list 형태로 변환해서 출력해. 출력전에 json spec 에 맞도록 sanitize를 꼭 해야해.
-# output : '''
+json_obj = '''
     prompt = ChatPromptTemplate.from_template(prompt_head + '{news_headlines}'+ prompt_tail)
 
     chain = prompt | llm | StrOutputParser()
@@ -60,8 +60,8 @@ def get_markdown_output(result_list):
     result_text = 'No. | news | translated | words\n---|---|---|---\n'
     KEYS = ['title', 'korean_title', 'summary', 'korean_summary', 'words']
     for no, obj in enumerate(result_list):
-        origin_text = f"**{obj['title']}** - {obj['summary']}"
-        korean_text = f"**{obj['korean_title']}** - {obj['korean_summary']}"
+        origin_text = f"***{obj['title']}*** - {obj['summary']}"
+        korean_text = f"***{obj['korean_title']}*** - {obj['korean_summary']}"
         words_text = ' , '.join(obj['words'])
         result_text = result_text + f'{no+1} | {origin_text} | {korean_text} | {words_text}\n'
 
