@@ -57,13 +57,14 @@ json_obj = '''
     return result
 
 def get_markdown_output(result_list):
-    result_text = 'No. | news | translated | words\n---|---|---|---\n'
+    heads = ['No.','news','translated','words']
+    result_text = ' | '.join(heads) + '\n' +' | '.join(['---' for _ in heads]) +'\n'
     KEYS = ['title', 'korean_title', 'summary', 'korean_summary', 'words']
     for no, obj in enumerate(result_list):
         origin_text = f"***{obj['title']}*** - {obj['summary']}"
         korean_text = f"***{obj['korean_title']}*** - {obj['korean_summary']}"
-        words_text = ' , '.join(obj['words'])
-        result_text = result_text + f'{no+1} | {origin_text} | {korean_text} | {words_text}\n'
+        words_text = '</br> - '.join(obj['words'])
+        result_text = result_text + f'{no+1} | {origin_text} | {korean_text} | - {words_text}\n'
 
     return result_text
 
