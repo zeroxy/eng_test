@@ -67,7 +67,7 @@ def get_markdown_output(result_list):
         origin_text = f"***{obj['title']}*** - {obj['summary']}"
         korean_text = f"***{obj['korean_title']}*** - {obj['korean_summary']}"
         words_text = '</br> - '.join(obj['words'])
-        result_text = result_text + f'{no+1} [Link]({obj["link"]}) | {origin_text} | {korean_text} | - {words_text}\n'
+        result_text = result_text + f'{no+1} [Link]({obj["link"]} ) | {origin_text} | {korean_text} | - {words_text}\n'
 
     return result_text
 
