@@ -82,16 +82,21 @@ def main(days_ago = 1):
     result_json = []
     step = 8
     for i in range(0, len(result_list_of_title_and_summary), step):
-        print(i)
+        print(i , ' / ' ,  len(result_list_of_title_and_summary))
         obj_cnt = len(result_list_of_title_and_summary[i:i+step])
         temp_result = get_llm_response_md(json.dumps(result_list_of_title_and_summary[i:i+step]), obj_cnt)
         print(temp_result)
         startidx = 1
+        temp_result_json = []
         while startidx <=obj_cnt:
             try:
                 temp_result_json = [ {"korean_title": "", "korean_summary": "", "words": []} for _ in range(startidx-1)] + json.loads('[{' + '{'.join(temp_result.split('{')[startidx:]) )
+                break
             except:
+                print("# retry :", startidx)
                 startidx = startidx +1
+        if len(temp_result_json) == 0:
+            temp_result_json = [ {"korean_title": "", "korean_summary": "", "words": []} for _ in range(obj_cnt)]
         print(obj_cnt , len(temp_result_json))
         temp_merged_list = [ result_list_of_title_and_summary[i+delta] | temp_result_json[delta] for delta in range(len(temp_result_json))]
         result_json = result_json + temp_merged_list
