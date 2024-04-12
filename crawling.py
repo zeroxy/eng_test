@@ -31,8 +31,9 @@ def get_NYT_headline(days_ago = 1):
     for h3 in h3_elements:
         title = h3.text.strip()
         summary = h3.find_next_siblings()[-1].text.strip()
+        link = h3.find('a')['href']
         if 'Video:' not in title:
-            result_list_of_title_and_summary.append( {'title':title, 'summary':summary} )
+            result_list_of_title_and_summary.append( {'title':title, 'summary':summary, 'link':link} )
     return yesterday.date(), result_list_of_title_and_summary
 
 def get_llm_response_md(news_headlines_json, doc_length = 5, llm = LLM):
@@ -66,7 +67,7 @@ def get_markdown_output(result_list):
         origin_text = f"***{obj['title']}*** - {obj['summary']}"
         korean_text = f"***{obj['korean_title']}*** - {obj['korean_summary']}"
         words_text = '</br> - '.join(obj['words'])
-        result_text = result_text + f'{no+1} | {origin_text} | {korean_text} | - {words_text}\n'
+        result_text = result_text + f'{no+1} [Link]({obj["link"]}) | {origin_text} | {korean_text} | - {words_text}\n'
 
     return result_text
 
